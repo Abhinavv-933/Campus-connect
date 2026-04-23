@@ -8,22 +8,20 @@ require('dotenv').config();
 
 const app = express();
 
-// 🔹 Allowed Origins (LOCAL + PROD)
-const allowedOrigins = [
-  "http://localhost:5173",,
-  process.env.CLIENT_URL
-];
-
-// 🔹 CORS Config
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin) return callback(null, true); // Postman support
+    if (!origin) return callback(null, true);
+
+    const allowedOrigins = [
+      "http://localhost:5173",
+      "https://campus-connect-abd.vercel.app"
+    ];
 
     if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS: " + origin));
+      return callback(null, true);
     }
+
+    return callback(new Error("CORS blocked: " + origin));
   },
   credentials: true
 }));

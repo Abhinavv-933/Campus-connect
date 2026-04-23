@@ -1,11 +1,14 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
+const isProd = process.env.NODE_ENV === 'production';
+
 const COOKIE_OPTIONS = {
   httpOnly: true,
-  secure: process.env.NODE_ENV === 'production',
-  sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+  secure: isProd,
+  sameSite: isProd ? 'none' : 'lax',
   maxAge: 7 * 24 * 60 * 60 * 1000,
+  domain: isProd ? '.onrender.com' : 'localhost'
 };
 
 const signToken = (userId) =>
