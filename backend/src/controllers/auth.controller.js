@@ -8,8 +8,8 @@ const COOKIE_OPTIONS = {
   secure: isProd,
   sameSite: isProd ? 'none' : 'lax',
   maxAge: 7 * 24 * 60 * 60 * 1000,
-  domain: isProd ? '.onrender.com' : 'localhost'
-};
+  // DELETE the domain line entirely
+}
 
 const signToken = (userId) =>
   jwt.sign({ id: userId }, process.env.JWT_SECRET, {
