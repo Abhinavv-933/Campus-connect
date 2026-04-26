@@ -94,9 +94,9 @@ export default function AdminEventDetail() {
         {/* Banner Image */}
         {event.imageUrl && (
           <div className="h-64 w-full overflow-hidden">
-            <img 
-              src={event.imageUrl} 
-              alt={event.title} 
+            <img
+              src={event.imageUrl}
+              alt={event.title}
               className="w-full h-full object-cover"
               onError={(e) => e.target.style.display = 'none'}
             />
@@ -107,7 +107,7 @@ export default function AdminEventDetail() {
           <div className="flex justify-between items-start">
             <div>
               <div className="flex items-center gap-3 mb-2">
-                 <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${statusClasses[event.status]}`}>
+                <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${statusClasses[event.status]}`}>
                   {event.status}
                 </span>
                 <span className="text-sm font-bold text-indigo-600 uppercase tracking-widest">{event.category}</span>
@@ -120,18 +120,29 @@ export default function AdminEventDetail() {
             <div className="space-y-4">
               <div className="flex items-start gap-3">
                 <div className="w-10 h-10 rounded-lg bg-zinc-50 flex items-center justify-center flex-shrink-0 text-zinc-400">
-                   <User className="w-5 h-5" />
+                  <User className="w-5 h-5" />
                 </div>
-                <div>
-                  <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest">Organizer</p>
-                  <p className="text-lg font-semibold text-zinc-900 mt-0.5">{event.organizer?.name || 'Unknown'}</p>
-                  <p className="text-sm text-zinc-500">{event.organizer?.organization || 'Individual'}</p>
+                <div className="space-y-1">
+                  <h3 className="text-xs font-bold text-zinc-400 uppercase tracking-widest">
+                    Organizer
+                  </h3>
+                  <p className="text-lg font-semibold text-zinc-900">
+                    {event.organizerId?.name || event.organizerName || 'Unknown'}
+                  </p>
+                  <p className="text-sm text-zinc-500">
+                    {event.organizerId?.organization
+                      ? event.organizerId.organization
+                      : 'Independent'}
+                  </p>
+                  <p className="text-sm text-zinc-400 italic">
+                    {event.organizerId?.role || ''}
+                  </p>
                 </div>
               </div>
 
               <div className="flex items-start gap-3">
                 <div className="w-10 h-10 rounded-lg bg-zinc-50 flex items-center justify-center flex-shrink-0 text-zinc-400">
-                   <Calendar className="w-5 h-5" />
+                  <Calendar className="w-5 h-5" />
                 </div>
                 <div>
                   <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest">Date & Time</p>
@@ -144,7 +155,7 @@ export default function AdminEventDetail() {
             <div className="space-y-4">
               <div className="flex items-start gap-3">
                 <div className="w-10 h-10 rounded-lg bg-zinc-50 flex items-center justify-center flex-shrink-0 text-zinc-400">
-                   <MapPin className="w-5 h-5" />
+                  <MapPin className="w-5 h-5" />
                 </div>
                 <div>
                   <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest">Venue</p>
@@ -154,7 +165,7 @@ export default function AdminEventDetail() {
 
               <div className="flex items-start gap-3">
                 <div className="w-10 h-10 rounded-lg bg-zinc-50 flex items-center justify-center flex-shrink-0 text-zinc-400">
-                   <Clock className="w-5 h-5" />
+                  <Clock className="w-5 h-5" />
                 </div>
                 <div>
                   <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest">Submitted At</p>
@@ -212,9 +223,9 @@ export default function AdminEventDetail() {
               </button>
             </div>
             <div className="p-6 text-center">
-               <div className="w-16 h-16 rounded-full bg-rose-50 flex items-center justify-center mx-auto mb-4">
-                  <MessageSquare className="w-8 h-8 text-rose-500" />
-               </div>
+              <div className="w-16 h-16 rounded-full bg-rose-50 flex items-center justify-center mx-auto mb-4">
+                <MessageSquare className="w-8 h-8 text-rose-500" />
+              </div>
               <textarea
                 value={rejectionReason}
                 onChange={(e) => setRejectionReason(e.target.value)}

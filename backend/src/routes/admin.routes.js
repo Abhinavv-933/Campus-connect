@@ -25,7 +25,7 @@ router.get('/stats', async (req, res) => {
 router.get('/events/pending', async (req, res) => {
   try {
     const events = await Event.find({ status: 'pending' })
-      .populate('organizerId', 'name email organization')
+      .populate('organizerId', 'name email organization role')
       .sort({ createdAt: -1 });
     return res.status(200).json(events);
   } catch (error) {
@@ -40,7 +40,7 @@ router.get('/all', async (req, res) => {
     if (status) query.status = status;
     if (category) query.category = category;
 
-    const events = await Event.find(query).populate('organizerId').sort({ createdAt: -1 });
+    const events = await Event.find(query).populate('organizerId', 'name email organization role').sort({ createdAt: -1 });
     return res.status(200).json(events);
   } catch (error) {
     return res.status(500).json({ message: 'Failed to fetch events' });
@@ -49,7 +49,7 @@ router.get('/all', async (req, res) => {
 
 router.get('/event/:id', async (req, res) => {
   try {
-    const event = await Event.findById(req.params.id).populate('organizerId');
+    const event = await Event.findById(req.params.id).populate('organizerId', 'name email organization orgRole');
     if (!event) return res.status(404).json({ message: 'Event not found' });
     return res.status(200).json(event);
   } catch (error) {
@@ -90,7 +90,7 @@ router.patch('/events/:id/reject', async (req, res) => {
 
 router.get('/organizers', async (req, res) => {
   try {
-    const organizers = await User.find({ role: 'organizer' }).select('name email organization orgRole');
+    const organizers = await User.find({ role: 'organizer' }).select('name email organization role');
 
     const organizerData = await Promise.all(
       organizers.map(async (organizer) => {

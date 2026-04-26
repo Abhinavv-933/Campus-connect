@@ -38,6 +38,13 @@ export default function AdminHome() {
     fetchAdminData()
   }, [fetchAdminData])
 
+  useEffect(() => {
+    if (pendingEvents.length > 0) {
+      console.log('PENDING EVENTS:', pendingEvents)
+      console.log('FIRST EVENT ORGANIZER:', pendingEvents[0]?.organizerId)
+    }
+  }, [pendingEvents])
+
   if (isLoading) {
     return (
       <div className="min-h-[60vh] flex flex-col items-center justify-center gap-3">
@@ -115,7 +122,14 @@ export default function AdminHome() {
                 {pendingEvents.map((event) => (
                   <tr key={event._id} className="hover:bg-zinc-50">
                     <td className="px-6 py-4 font-medium text-zinc-900">{event.title}</td>
-                    <td className="px-6 py-4 text-zinc-600">{event.organizer?.name || 'Unknown'}</td>
+                    <td className="px-6 py-4">
+                      <p className="text-sm font-medium text-zinc-900">
+                        {event.organizerId?.name || event.organizerName || 'Unknown'}
+                      </p>
+                      <p className="text-xs text-zinc-500 mt-0.5">
+                        {event.organizerId?.organization || '—'}
+                      </p>
+                    </td>
                     <td className="px-6 py-4 text-zinc-500">
                       {new Date(event.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                     </td>

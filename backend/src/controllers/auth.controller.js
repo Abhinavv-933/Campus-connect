@@ -8,7 +8,6 @@ const COOKIE_OPTIONS = {
   secure: isProd,
   sameSite: isProd ? 'none' : 'lax',
   maxAge: 7 * 24 * 60 * 60 * 1000,
-  // DELETE the domain line entirely
 }
 
 const signToken = (userId) =>

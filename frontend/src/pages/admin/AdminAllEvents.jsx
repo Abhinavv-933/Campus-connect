@@ -32,6 +32,13 @@ export default function AdminAllEvents() {
     fetchAllEvents()
   }, [statusFilter, categoryFilter])
 
+  useEffect(() => {
+    if (events.length > 0) {
+      console.log('PENDING EVENTS:', events)
+      console.log('FIRST EVENT ORGANIZER:', events[0]?.organizerId)
+    }
+  }, [events])
+
   const statusClasses = {
     pending: 'bg-amber-100 text-amber-700',
     approved: 'bg-emerald-100 text-emerald-700',
@@ -43,7 +50,7 @@ export default function AdminAllEvents() {
       <h2 className="text-3xl font-bold text-zinc-900">All Events</h2>
 
       <div className="flex flex-wrap items-center gap-2">
-        <select 
+        <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
           className="px-3 py-2 bg-white border border-zinc-200 rounded-md text-sm text-zinc-700 focus:ring-2 focus:ring-zinc-900 focus:outline-none"
@@ -53,7 +60,7 @@ export default function AdminAllEvents() {
           <option>Approved</option>
           <option>Rejected</option>
         </select>
-        <select 
+        <select
           value={categoryFilter}
           onChange={(e) => setCategoryFilter(e.target.value)}
           className="px-3 py-2 bg-white border border-zinc-200 rounded-md text-sm text-zinc-700 focus:ring-2 focus:ring-zinc-900 focus:outline-none"
@@ -92,7 +99,17 @@ export default function AdminAllEvents() {
                 {events.map((event) => (
                   <tr key={event._id} className="hover:bg-zinc-50">
                     <td className="px-6 py-4 font-medium text-zinc-900">{event.title}</td>
-                    <td className="px-6 py-4 text-zinc-600 text-sm">{event.organizer?.name || 'Unknown'}</td>
+                    <td className="px-6 py-4">
+                      <p className="text-sm font-medium text-zinc-900">
+                        {event.organizerId?.name || event.organizerName || 'Unknown'}
+                      </p>
+                      <p className="text-xs text-zinc-500 mt-0.5">
+                        {event.organizerId?.organization || '—'}
+                      </p>
+                      <p className="text-xs text-zinc-400 italic">
+                        {event.organizerId?.role || ''}
+                      </p>
+                    </td>
                     <td className="px-6 py-4">
                       <span className={`inline-flex px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${statusClasses[event.status]}`}>
                         {event.status}
@@ -102,9 +119,9 @@ export default function AdminAllEvents() {
                       {new Date(event.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                     </td>
                     <td className="px-6 py-4 text-right">
-                       <Link to={`/admin/event/${event._id}`} className="text-sm text-zinc-900 font-bold hover:underline">
-                         View
-                       </Link>
+                      <Link to={`/admin/event/${event._id}`} className="text-sm text-zinc-900 font-bold hover:underline">
+                        View
+                      </Link>
                     </td>
                   </tr>
                 ))}
