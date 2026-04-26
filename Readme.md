@@ -175,12 +175,13 @@ npm run dev
 ```
 
 
-
 ## 📄 License
 
-Distributed under the MIT License.
-Built by Abhinavv
+This project is built for educational and hackathon purposes.
+
 ---
+
+Built by [Abhinavv ](https://abhinavv-portfolio.vercel.app/)
 
 <div align="center">
 
